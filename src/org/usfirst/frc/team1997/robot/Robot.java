@@ -19,6 +19,7 @@ import org.usfirst.frc.team1997.robot.commands.AutonomousTestLeft;
 import org.usfirst.frc.team1997.robot.commands.AutonomousTestRight;
 import org.usfirst.frc.team1997.robot.subsystems.Arm;
 import org.usfirst.frc.team1997.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team1997.robot.subsystems.LED;
 import org.usfirst.frc.team1997.robot.subsystems.Wing;
 
 /**
@@ -35,6 +36,7 @@ public class Robot extends IterativeRobot {
 	public static DriveTrain m_drivetrain;
 	public static Wing m_wing;
 	public static Arm m_arm;
+	public static LED m_led;
 	public static OI m_oi;
 
 	/**
@@ -48,6 +50,7 @@ public class Robot extends IterativeRobot {
 		m_drivetrain = new DriveTrain();
 		m_wing = new Wing();
 		m_arm = new Arm();
+		m_led = new LED();
 		m_oi = new OI();
 
 		autoChooser.addDefault("Do Nothing", new AutonomousNoAuto());

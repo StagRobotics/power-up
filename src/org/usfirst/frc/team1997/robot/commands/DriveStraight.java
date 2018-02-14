@@ -32,7 +32,6 @@ public class DriveStraight extends Command {
 		count = 0;
 	}
 
-	// Make this return true when this Command no longer needs to run execute()
 	protected void execute() {
 	
 		Robot.m_drivetrain.drive(leftDriveSpeed * leftCorrectionRatio, rightDriveSpeed * rightCorrectionRatio);
@@ -53,8 +52,6 @@ public class DriveStraight extends Command {
     		leftCorrectionRatio = 1;
     		rightCorrectionRatio= 1;
     	}
-		
-		
 	}
 	
 	protected boolean isFinished() {
@@ -62,13 +59,10 @@ public class DriveStraight extends Command {
 	}
 	
 	protected void end() {
-		// Stop PID and the wheels
-		//Robot.m_drivetrain.reset();
 		Robot.m_drivetrain.drive(0, 0);
 		Robot.m_drivetrain.reset();
 	}
 	protected void interrupted() {
-    	//Robot.m_drivetrain.reset();
 		Robot.m_drivetrain.drive(0, 0);
     }
 }

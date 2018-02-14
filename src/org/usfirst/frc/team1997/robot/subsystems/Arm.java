@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1997.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -8,7 +9,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Arm extends Subsystem {
 
-    private DoubleSolenoid armLift = new DoubleSolenoid(6,7);
+	private Relay latch = new Relay(2);
+	
+    private DoubleSolenoid armLift = new DoubleSolenoid(0,1);
     private DoubleSolenoid armTop = new DoubleSolenoid(4,5);
     private DoubleSolenoid armKick = new DoubleSolenoid(2,3);
     

@@ -15,18 +15,20 @@ import org.usfirst.frc.team1997.robot.commands.AutonomousTestLeft;
 import org.usfirst.frc.team1997.robot.commands.AutonomousTestRight;
 import org.usfirst.frc.team1997.robot.commands.DriveStraight;
 import org.usfirst.frc.team1997.robot.commands.Kick;
+import org.usfirst.frc.team1997.robot.commands.KickIn;
+import org.usfirst.frc.team1997.robot.commands.KickOut;
 import org.usfirst.frc.team1997.robot.commands.LiftArm;
 import org.usfirst.frc.team1997.robot.commands.LowerArm;
+import org.usfirst.frc.team1997.robot.commands.ToggleBlueLED;
+import org.usfirst.frc.team1997.robot.commands.ToggleRedLED;
 import org.usfirst.frc.team1997.robot.commands.ToggleTop;
 import org.usfirst.frc.team1997.robot.commands.TurnL;
 import org.usfirst.frc.team1997.robot.commands.TurnR;
+import org.usfirst.frc.team1997.robot.commands.WingLift;
+import org.usfirst.frc.team1997.robot.commands.WingOut;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- * This class is the glue that binds the controls on the physical operator
- * interface to the commands and command groups that allow control of the robot.
- */
 public class OI {
 	private Joystick leftJoystick = new Joystick(0);
 	private Joystick rightJoystick = new Joystick(1);
@@ -35,26 +37,38 @@ public class OI {
 	public double speed = 0.25;
 	
 	public double getSpeed() {return speed;}
-	
 
 	public OI() {
 		
 		SmartDashboard.putData("Drive 5 Feet", new DriveStraight(60));
 		SmartDashboard.putData("Drive 10 Feet", new DriveStraight(120));
 		SmartDashboard.putData("Drive 20 Feet", new DriveStraight(240));
-		SmartDashboard.putData("Turn .25", new TurnL(25));
-		SmartDashboard.putData("Turn .5", new TurnL(50));
-		SmartDashboard.putData("Turn 1", new TurnL(100));
 		SmartDashboard.putData("Drive train Left", new AutonomousTestLeft());
 		SmartDashboard.putData("Drive train Right", new AutonomousTestRight());
+		SmartDashboard.putData("WingOut", new WingOut());
+		SmartDashboard.putData("WingIn", new WingLift());
+		SmartDashboard.putData("Kick", new Kick());
+		SmartDashboard.putData("Lift Arm", new LiftArm());
+		SmartDashboard.putData("Lower Arm", new LowerArm());
+		SmartDashboard.putData("Kicker In", new KickOut());
+		SmartDashboard.putData("ToggleTop", new ToggleTop());
 		
-		JoystickButton solenoidOut = new JoystickButton(leftJoystick, 1);
-		JoystickButton solenoidIn = new JoystickButton(leftJoystick, 2);
+		
+		JoystickButton WingIn = new JoystickButton(leftJoystick, 1);
+		JoystickButton WingOut = new JoystickButton(rightJoystick, 1);
 		
 		JoystickButton armToggle = new JoystickButton(auxJoystick, 1);
-		JoystickButton upperArm = new JoystickButton(auxJoystick,2);
+		JoystickButton upperArm = new JoystickButton(auxJoystick, 2);
 		JoystickButton kick = new JoystickButton(auxJoystick, 3);
 		
+		JoystickButton redLEDToggle = new JoystickButton(auxJoystick, 5);
+		JoystickButton blueLEDToggle = new JoystickButton(auxJoystick,6);
+		
+		redLEDToggle.whenPressed(new ToggleRedLED());
+		blueLEDToggle.whenPressed(new ToggleBlueLED());
+		
+		WingOut.whenPressed(new WingOut());
+		WingIn.whenPressed(new WingLift());
 		
 		upperArm.whenPressed(new ToggleTop());
 		
@@ -66,11 +80,8 @@ public class OI {
 		if(armToggle.get() && auxJoystick.getY() < -0.4) {
 			new LowerArm();
 		}		
-		
-		
 	}
-
-
+	
 	public Joystick getLeftJoystick( ) {
 		return leftJoystick;
 	}
@@ -78,4 +89,5 @@ public class OI {
 	public Joystick getRightJoystick() {
 		return rightJoystick;
 	}
+	
 }

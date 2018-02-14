@@ -58,7 +58,8 @@ public class DriveTrain extends Subsystem {
 		rightEncoder.setSamplesToAverage(7);
 		rightEncoder.reset();
 				
-		rightMotor.setInverted(true);
+		//rightMotor.setInverted(true);
+		leftMotor.setInverted(true);
 
 		gyro.reset();
 		// Let's name the sensors on the LiveWindow

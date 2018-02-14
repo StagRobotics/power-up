@@ -1,15 +1,16 @@
 package org.usfirst.frc.team1997.robot.commands;
 
+import org.usfirst.frc.team1997.robot.Robot;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class CheckArmState extends Command {
+public class ToggleBlueLED extends Command {
 
-    public CheckArmState() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+    public ToggleBlueLED() {
+       requires(Robot.m_led);
     }
 
     // Called just before this Command runs the first time
@@ -18,11 +19,18 @@ public class CheckArmState extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	if(Robot.m_led.getBlueLEDState() == "off") {
+    		Robot.m_led.blueLEDON();
+    		Robot.m_led.toggleBlueLEDState();
+    	}else if (Robot.m_led.getBlueLEDState() == "on") {
+    		Robot.m_led.blueLEDOFF();
+    		Robot.m_led.toggleBlueLEDState();
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true

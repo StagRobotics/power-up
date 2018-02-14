@@ -6,11 +6,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- *
- */
 public class AutonomousTestRight extends CommandGroup {
-
     public AutonomousTestRight() {
     	
     	DriverStation driverStation = DriverStation.getInstance();
@@ -22,8 +18,7 @@ public class AutonomousTestRight extends CommandGroup {
         	addSequential(new TurnL(20));
         	addSequential(new Wait(1));
         	addSequential(new DriveStraight(12));
-    	}
-    	else {
+    	}else {
     		addSequential(new DriveStraight(180));
         	addSequential(new Wait(1));
         	addSequential(new TurnL(20));
@@ -31,9 +26,7 @@ public class AutonomousTestRight extends CommandGroup {
         	addSequential(new DriveStraight(121));
         	addSequential(new Wait(1));
         	addSequential(new TurnL(20));
-    		addSequential(new Wait(1));
-    		
-    		
+    		addSequential(new Wait(1));	
     	}
     }
 }
