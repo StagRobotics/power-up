@@ -7,20 +7,25 @@
 
 package org.usfirst.frc.team1997.robot;
 
+import org.usfirst.frc.team1997.robot.commands.AutonomousCenter;
+import org.usfirst.frc.team1997.robot.commands.AutonomousDriveStraight;
+import org.usfirst.frc.team1997.robot.commands.AutonomousLeft;
+import org.usfirst.frc.team1997.robot.commands.AutonomousLeftOnly;
+import org.usfirst.frc.team1997.robot.commands.AutonomousNoAuto;
+import org.usfirst.frc.team1997.robot.commands.AutonomousRight;
+import org.usfirst.frc.team1997.robot.commands.AutonomousRightOnly;
+import org.usfirst.frc.team1997.robot.commands.Wait;
+import org.usfirst.frc.team1997.robot.subsystems.Arm;
+import org.usfirst.frc.team1997.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team1997.robot.subsystems.LED;
+import org.usfirst.frc.team1997.robot.subsystems.Wing;
+
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import org.usfirst.frc.team1997.robot.commands.AutonomousNoAuto;
-import org.usfirst.frc.team1997.robot.commands.AutonomousDriveStraight;
-import org.usfirst.frc.team1997.robot.commands.AutonomousTestLeft;
-import org.usfirst.frc.team1997.robot.commands.AutonomousTestRight;
-import org.usfirst.frc.team1997.robot.subsystems.Arm;
-import org.usfirst.frc.team1997.robot.subsystems.DriveTrain;
-import org.usfirst.frc.team1997.robot.subsystems.LED;
-import org.usfirst.frc.team1997.robot.subsystems.Wing;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -31,7 +36,7 @@ import org.usfirst.frc.team1997.robot.subsystems.Wing;
  */
 
 public class Robot extends IterativeRobot {
-	Command autoCommand;
+	Command autoCommand = new Wait(15);
 	SendableChooser<Command> autoChooser = new SendableChooser<Command>();
 	public static DriveTrain m_drivetrain;
 	public static Wing m_wing;
@@ -40,13 +45,13 @@ public class Robot extends IterativeRobot {
 	public static OI m_oi;
 
 	/**
-	 * This function is run when the robot is first started up and should be
-	 * used for any initialization code.
+	 * This function is run when the robot is first started up and should be used
+	 * for any initialization code.
 	 */
 	@Override
 	public void robotInit() {
 		// Initialize all subsystems
-	
+
 		m_drivetrain = new DriveTrain();
 		m_wing = new Wing();
 		m_arm = new Arm();
@@ -55,20 +60,31 @@ public class Robot extends IterativeRobot {
 
 		autoChooser.addDefault("Do Nothing", new AutonomousNoAuto());
 		autoChooser.addObject("Cross Auto Line ONLY", new AutonomousDriveStraight());
-		autoChooser.addObject("Left Auto", new AutonomousTestLeft());
-		autoChooser.addObject("Right Auto", new AutonomousTestRight());
-		
+		autoChooser.addObject("Left Auto (try for either plate)", new AutonomousLeft());
+		autoChooser.addObject("Right Auto (try for either plate)", new AutonomousRight());
+		autoChooser.addObject("Left Auto (try for left plate or cross)", new AutonomousLeftOnly());
+		autoChooser.addObject("Right Auto (try for right plate or cross)", new AutonomousRightOnly());
+		autoChooser.addObject("Center Auto", new AutonomousCenter());
+
 		SmartDashboard.putData(autoChooser);
-		
+
 		// Show what command your subsystem is running on the SmartDashboard
 		SmartDashboard.putData(m_drivetrain);
 		m_drivetrain.gyro.calibrate();
+		CameraServer.getInstance().startAutomaticCapture();
+
+		// setting pneumatics off to begin
+		m_arm.lowerArm();
+		m_arm.kickerIn();
+		m_arm.jawDown();
+
 	}
 
 	@Override
 	public void autonomousInit() {
 		autoCommand = autoChooser.getSelected();
 		autoCommand.start();
+
 	}
 
 	/**
@@ -82,7 +98,8 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopInit() {
-		//m_autonomousCommand.cancel();
+		if (autoCommand.isRunning())
+			autoCommand.cancel();
 	}
 
 	/**
@@ -100,20 +117,20 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 	}
-	
+
 	@Override
 	public void disabledInit() {
-		
+
 	}
-	
+
 	@Override
 	public void disabledPeriodic() {
-		
+
 	}
-	
+
 	@Override
 	public void robotPeriodic() {
-		
+
 	}
 
 	/**
